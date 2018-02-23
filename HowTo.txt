@@ -1,0 +1,79 @@
+PhpFunQuery adalah class yang memanfaatkan magic method __call untuk melakukan query dari sebuah fungsi tanpa perlu dideklarasikan dahulu nama fungsinya
+maupun querynya dengan aturan format tertentu dalam pemanggilan fungsinya.
+
+Cara nya :
+
+1. Buat database berisi table apa saja, berisi field apa saja
+
+Misal :
+======================
+Karyawan
+======================
+ID
+nama
+jabatan
+gaji
+umur
+skills
+divisi
+status
+======================
+
+2. Include PhpFunQuery.php di File kerja Anda 
+3. Deklarasikan satu object sebagai new instance dari class PhpFunQuery
+
+Contoh Script
+
+include 'PhpFunQuery.php';
+
+$data =  new PhpFunQuery();
+
+4. Lakukan query misalnya :
+
+$data->getKaryawan();
+
+maka akan me-return seluruh data karyawan
+jika table Anda adalah student maka fungsinya :
+
+$data->getStudent();
+
+dst...
+
+5. Query dengan filter :
+
+contoh 1 :
+
+$data->getKaryawanFilterNama('andi');
+
+sama dengan :
+SELECT * FROM karyawan WHERE nama = 'andi';
+
+contoh 2 :
+$data->getKaryawanFilterNama('!andi');
+
+sama dengan :
+SELECT * FROM karyawan WHERE nama != 'andi';
+
+contoh 3
+$data->getKaryawanFilterNama('%andi');
+
+sama dengan :
+SELECT * FROM karyawan WHERE nama LIKE '%andi%';
+
+contoh 4 
+$data->getKaryawanFilterNamaAndJabatan('Deasy','!programmer');
+sama dengan :
+SELECT * FROM karyawan WHERE nama = 'Deasy' AND jabatan != 'programmer';
+
+contoh 5 
+$data->getKaryawanFilterNamaAndStatusAndUmur('Yusuf','!menikah','26');
+sama dengan :
+SELECT * FROM karyawan WHERE nama = 'Yusuf' AND status != 'menikah' AND umur = '26';
+
+
+
+===================================
+FORMAT PENULISAN FUNCTION 
+
+$nama_object->getNamatable[FilterField_1[AndFilterField_n]([isi_field_1[, [isi_field_n]])
+
